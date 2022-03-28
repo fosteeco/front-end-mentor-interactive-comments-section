@@ -12,6 +12,7 @@
       href="./images/favicon-32x32.png"
     />
 
+    <script src="./script.js" defer></script>
     <title>Frontend Mentor | Interactive comments section</title>
 
     <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
@@ -20,39 +21,7 @@
   </head>
   <body>
     <!-- Pull dynamic content from the data.json file -->
-    <div class="comment-card">
-      <div class="vote-container">
-        <button class="btn plus-button">
-          <img src="./images/icon-plus.svg" alt="" />
-        </button>
-        <div class="vote-count moderate-blue-text weight-500">12</div>
-        <button class="btn minus-button">
-          <img src="./images/icon-minus.svg" alt="" />
-        </button>
-      </div>
-      <div class="comment-main">
-        <div class="comment-header">
-          <div class="comment-info">
-            <img
-              src="./images/avatars/image-amyrobson.png"
-              class="profile"
-              alt=""
-            />
-            <span class="profile-name weight-500">amyrobson</span>
-            <span class="created-at">1 month ago</span>
-          </div>
-          <div class="comment-reply-container moderate-blue-text weight-500">
-            <img src="./images/icon-reply.svg" alt="Reply arrow" />
-            <span>Reply</span>
-          </div>
-        </div>
-        <div class="comment-body gray-text">
-          Impressive! Though it seems the drag feature could be improved. But
-          overall it looks incredible. You've nailed the design and the
-          responsiveness at various breakpoints works really well.
-        </div>
-      </div>
-    </div>
+    <div class="comments-container" id="comments-container"></div>
 
     <div class="attribution">
       Challenge by

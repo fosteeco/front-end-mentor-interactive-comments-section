@@ -39,6 +39,12 @@ body {
   font-weight: 500;
 }
 
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .comment-main {
   display: flex;
   flex-direction: column;
