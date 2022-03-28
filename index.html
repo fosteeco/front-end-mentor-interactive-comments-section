@@ -1,26 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Interactive comments section</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
-</head>
-<body>
+    <title>Frontend Mentor | Interactive comments section</title>
 
-  <!-- Pull dynamic content from the data.json file -->
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
-</body>
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Pull dynamic content from the data.json file -->
+    <div class="comment-card">
+      <div class="vote-container">
+        <button class="btn plus-button">
+          <img src="./images/icon-plus.svg" alt="" />
+        </button>
+        <div class="vote-count moderate-blue-text weight-500">12</div>
+        <button class="btn minus-button">
+          <img src="./images/icon-minus.svg" alt="" />
+        </button>
+      </div>
+      <div class="comment-main">
+        <div class="comment-header">
+          <div class="comment-info">
+            <img
+              src="./images/avatars/image-amyrobson.png"
+              class="profile"
+              alt=""
+            />
+            <span class="profile-name weight-500">amyrobson</span>
+            <span class="created-at">1 month ago</span>
+          </div>
+          <div class="comment-reply-container moderate-blue-text weight-500">
+            <img src="./images/icon-reply.svg" alt="Reply arrow" />
+            <span>Reply</span>
+          </div>
+        </div>
+        <div class="comment-body gray-text">
+          Impressive! Though it seems the drag feature could be improved. But
+          overall it looks incredible. You've nailed the design and the
+          responsiveness at various breakpoints works really well.
+        </div>
+      </div>
+    </div>
+
+    <div class="attribution">
+      Challenge by
+      <a
+        href="https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9/hub/interactive-comments-section-ryJC4wymq"
+        target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="https://github.com/fosteeco">Christian Foster</a>.
+      <a
+        href="https://github.com/fosteeco/front-end-mentor-interactive-comments-section"
+        target="_blank"
+        >Link to Repo</a
+      >
+    </div>
+  </body>
 </html>
