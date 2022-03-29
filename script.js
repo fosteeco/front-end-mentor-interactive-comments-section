@@ -40,7 +40,9 @@ const commentUpVote = (commentId) => {
   voteCount.innerHTML = +voteCount.innerHTML + 1;
 };
 
-const buildCommment = (commentData) => {
+const buildCommment = (commentData, data) => {
+  const { currentUser } = data;
+  console.log("currentUser :", currentUser);
   const commentCard = ` 
   <div class="comment-container">
     <div class="comment-card" id="${commentData.id}">
@@ -99,8 +101,12 @@ const buildCommment = (commentData) => {
         <button onClick="commentUpVote(${comment.id})" class="btn plus-button">
           <img src="./images/icon-plus.svg" alt="" />
         </button>
-        <div class="vote-count moderate-blue-text weight-500">${comment.score}</div>
-        <button onClick="commentDownVote(${comment.id})" class="btn minus-button">
+        <div class="vote-count moderate-blue-text weight-500">${
+          comment.score
+        }</div>
+        <button onClick="commentDownVote(${
+          comment.id
+        })" class="btn minus-button">
           <img src="./images/icon-minus.svg" alt="" />
         </button>
       </div>
@@ -112,13 +118,23 @@ const buildCommment = (commentData) => {
               class="profile"
               alt=""
             />
-            <span class="profile-name weight-500">${comment.user.username}</span>
+            <span class="profile-name weight-500">${
+              comment.user.username
+            }</span>
             <span class="created-at">${comment.createdAt}</span>
           </div>
-          <div class="comment-reply-container moderate-blue-text weight-500" onClick="replyClick(${comment.id})">
+          ${
+            currentUser.username === comment.user.username
+              ? `
+              <div class="user-modify-controls">
+              <button class="btn transparent-bg red-text weight-500 modify-btn"><img src="./images/icon-delete.svg"/>Delete</button>
+              <button class="btn transparent-bg moderate-blue-text weight-500 modify-btn"><img src="./images/icon-edit.svg"/>Edit</button>
+              </div>`
+              : `<div class="comment-reply-container moderate-blue-text weight-500" onClick="replyClick(${comment.id})">
             <img src="./images/icon-reply.svg" alt="Reply arrow" />
             <span>Reply</span>
-          </div>
+          </div>`
+          }
         </div>
         <div class="comment-body gray-text">
         ${comment.content}
@@ -142,7 +158,7 @@ readTextFile("./data.json", function (text) {
   var data = JSON.parse(text); //parse JSON
   const commentArr = data.comments;
   commentArr.forEach((comment) => {
-    const newCommentCard = buildCommment(comment);
+    const newCommentCard = buildCommment(comment, data);
     commentsContainer.innerHTML += newCommentCard;
   });
   console.log(data);

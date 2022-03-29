@@ -183,6 +183,27 @@ body {
   font-family: inherit;
 }
 
+.transparent-bg {
+  background-color: transparent;
+}
+
+.red-text {
+  color: var(--softRed);
+}
+
+.modify-btn {
+  font-size: 18px;
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.user-modify-controls {
+  margin-left: auto;
+  display: flex;
+  gap: 20px;
+}
+
 .text-btn {
   padding: 10px 20px;
   border-radius: 10px;
