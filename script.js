@@ -82,7 +82,9 @@ const buildCommment = (commentData) => {
         </div>
       </div>
     </div>
-    <div class="replies-container">
+    ${
+      commentData.replies.length > 0
+        ? `<div class="replies-container">
     <div class="reply-bar-container">
     <div class="reply-bar"></div>
     </div>
@@ -123,7 +125,9 @@ const buildCommment = (commentData) => {
     </div>`
           )
           .join("")}
-    </div>
+    </div>`
+        : ""
+    }
     </div>
     </div>
     `;

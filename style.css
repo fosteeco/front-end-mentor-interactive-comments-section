@@ -31,6 +31,14 @@ body {
   color: var(--moderateBlue);
 }
 
+.white-text {
+  color: var(--white);
+}
+
+.moderate-blue-bg {
+  background-color: var(--moderateBlue);
+}
+
 .gray-text {
   color: var(--grayishBlue);
 }
@@ -73,6 +81,7 @@ body {
 
 .comment-reply-container {
   margin-left: auto;
+  cursor: pointer;
 }
 
 .replies-container {
@@ -118,9 +127,51 @@ body {
   vertical-align: middle;
 }
 
+.reply-input-box {
+  display: grid;
+  grid-template-columns: 60px 3fr auto;
+  width: 675px;
+  justify-content: space-between;
+  background-color: var(--white);
+  border-radius: 10px;
+  height: 90px;
+  margin-top: 20px;
+  padding: 10px 0;
+}
+
+.button-wrapper {
+  padding: 0 10px;
+}
+
+.reply-input-box > * {
+  text-align: center;
+}
+
+.text-area-wrapper {
+  height: 100%;
+}
+.text-area-wrapper textarea {
+  width: 100%;
+  resize: none;
+  height: 100%;
+  font-family: inherit;
+  border: 1px solid var(--lightGray);
+  padding: 10px;
+}
+
+.reply-text-area {
+}
+
 .btn {
   border: 0;
   cursor: pointer;
+  font-family: inherit;
+}
+
+.text-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  letter-spacing: 1px;
 }
 
 .btn img {
