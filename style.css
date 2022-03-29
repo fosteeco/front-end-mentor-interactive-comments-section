@@ -50,7 +50,13 @@ body {
 .comments-container {
   display: flex;
   flex-direction: column;
-  width: 675px;
+  max-width: 675px;
+  gap: 20px;
+}
+
+.comment-container {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -79,6 +85,12 @@ body {
   display: flex;
 }
 
+.reply-comments-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .comment-reply-container {
   margin-left: auto;
   cursor: pointer;
@@ -86,7 +98,6 @@ body {
 
 .replies-container {
   display: flex;
-  margin-top: 20px;
 }
 
 .reply-bar-container {
@@ -129,18 +140,21 @@ body {
 
 .reply-input-box {
   display: grid;
-  grid-template-columns: 60px 3fr auto;
-  width: 675px;
+  grid-template-columns: 60px 1fr auto;
+  width: 100%;
   justify-content: space-between;
   background-color: var(--white);
   border-radius: 10px;
   height: 90px;
-  margin-top: 20px;
   padding: 10px 0;
 }
 
 .button-wrapper {
   padding: 0 10px;
+}
+
+.mt-20 {
+  margin-top: 20px;
 }
 
 .reply-input-box > * {
@@ -150,10 +164,11 @@ body {
 .text-area-wrapper {
   height: 100%;
 }
+
 .text-area-wrapper textarea {
   width: 100%;
-  resize: none;
   height: 100%;
+  resize: none;
   font-family: inherit;
   border: 1px solid var(--lightGray);
   padding: 10px;

@@ -72,7 +72,9 @@ const buildCommment = (commentData) => {
             }</span>
             <span class="created-at">${commentData.createdAt}</span>
           </div>
-          <div class="comment-reply-container moderate-blue-text weight-500">
+          <div class="comment-reply-container moderate-blue-text weight-500" onClick="replyClick(${
+            commentData.id
+          })">
             <img src="./images/icon-reply.svg" alt="Reply arrow" />
             <span>Reply</span>
           </div>
@@ -113,7 +115,7 @@ const buildCommment = (commentData) => {
             <span class="profile-name weight-500">${comment.user.username}</span>
             <span class="created-at">${comment.createdAt}</span>
           </div>
-          <div class="comment-reply-container moderate-blue-text weight-500">
+          <div class="comment-reply-container moderate-blue-text weight-500" onClick="replyClick(${comment.id})">
             <img src="./images/icon-reply.svg" alt="Reply arrow" />
             <span>Reply</span>
           </div>
@@ -145,3 +147,40 @@ readTextFile("./data.json", function (text) {
   });
   console.log(data);
 });
+
+const buildCommentInput = (userAt) => {
+  console.log("userAt :", userAt);
+  const div = document.createElement("div");
+  div.classList.add("reply-input-box", "sub-comment-reply");
+  div.innerHTML = `
+    <div class="profile-wrapper">
+      <img src="./images/avatars/image-juliusomo.png" alt="" class="profile" />
+    </div>
+      <div class="text-area-wrapper">
+        <textarea
+          name=""
+          id="reply-text-area"
+          class="reply-text-area"
+          placeholder="Add a comment..."
+        >@${userAt} </textarea>
+      </div>
+    <div class="button-wrapper">
+      <button type="submit" class="btn text-btn moderate-blue-bg white-text">
+        SEND
+      </button>
+    </div>
+  </div>`;
+  return div;
+};
+
+/* Reply Code */
+const replyClick = (commentId) => {
+  const commentCard = document.getElementById(commentId);
+  const profileName = commentCard.querySelector("span.profile-name").innerHTML;
+  const subReplyDiv = document.querySelector(".sub-comment-reply");
+  if (subReplyDiv) {
+    subReplyDiv.remove();
+  }
+  const replyInputDiv = buildCommentInput(profileName);
+  commentCard.insertAdjacentElement("afterend", replyInputDiv);
+};
