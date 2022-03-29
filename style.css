@@ -218,6 +218,51 @@ img.profile {
   width: 30px;
 }
 
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.confirmation-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  width: 300px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.modal-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.modal-btn {
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+.hide {
+  display: none;
+}
+
+.gray-btn {
+  background-color: var(--grayishBlue);
+  color: var(--white);
+}
+
+.confirm-delete-btn {
+  color: var(--white);
+  background-color: var(--softRed);
+}
+
 .attribution {
   font-size: 11px;
   text-align: center;

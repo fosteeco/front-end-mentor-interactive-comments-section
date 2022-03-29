@@ -20,6 +20,26 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="modal-container hide">
+      <div class="confirmation-modal">
+        <h2>Delete Comment</h2>
+        <p class="gray-text">
+          Are you sure you want to delete this comment?This will remove the
+          comment and can't be undone.
+        </p>
+        <div class="modal-buttons">
+          <button class="btn modal-btn gray-btn" onClick="hideDeleteModal()">
+            NO, CANCEL
+          </button>
+          <button
+            id="confirm-delete-btn"
+            class="btn modal-btn confirm-delete-btn"
+          >
+            YES, DELETE
+          </button>
+        </div>
+      </div>
+    </div>
     <!-- Pull dynamic content from the data.json file -->
     <main>
       <div class="comments-container" id="comments-container"></div>

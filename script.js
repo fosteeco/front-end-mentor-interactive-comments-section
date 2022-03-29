@@ -127,7 +127,7 @@ const buildCommment = (commentData, data) => {
             currentUser.username === comment.user.username
               ? `
               <div class="user-modify-controls">
-              <button class="btn transparent-bg red-text weight-500 modify-btn"><img src="./images/icon-delete.svg"/>Delete</button>
+              <button class="btn transparent-bg red-text weight-500 modify-btn delete-btn" onClick="deleteComment(${comment.id})"><img src="./images/icon-delete.svg"/>Delete</button>
               <button class="btn transparent-bg moderate-blue-text weight-500 modify-btn"><img src="./images/icon-edit.svg"/>Edit</button>
               </div>`
               : `<div class="comment-reply-container moderate-blue-text weight-500" onClick="replyClick(${comment.id})">
@@ -199,4 +199,42 @@ const replyClick = (commentId) => {
   }
   const replyInputDiv = buildCommentInput(profileName);
   commentCard.insertAdjacentElement("afterend", replyInputDiv);
+};
+
+/* Delete Comment  */
+let commentToDelete;
+const deleteComment = (commentId) => {
+  commentToDelete = document.getElementById(commentId);
+  showDeleteModal();
+};
+
+const confirmDeleteBtn = document.querySelector("#confirm-delete-btn");
+confirmDeleteBtn.addEventListener("click", () => {
+  commentToDelete.remove();
+  hideDeleteModal();
+});
+
+/* Modal Code */
+
+const modalContainer = document.querySelector(".modal-container");
+document.addEventListener(
+  "click",
+  function (event) {
+    // If user either clicks X button OR clicks outside the modal window, then close modal by calling closeModal()
+    if (
+      !event.target.closest(".confirmation-modal") &&
+      !event.target.matches(".delete-btn")
+    ) {
+      hideDeleteModal();
+    }
+  },
+  false
+);
+
+const hideDeleteModal = () => {
+  modalContainer.classList.add("hide");
+};
+
+const showDeleteModal = () => {
+  modalContainer.classList.remove("hide");
 };
