@@ -370,3 +370,45 @@ const toggleEditComment = (commentId) => {
     updateBtn.remove();
   }
 };
+
+const mainCommentBtn = document.querySelector("#main-comment-btn");
+const mainReplyTextArea = document.querySelector("#main-reply-text-area");
+
+mainCommentBtn.addEventListener("click", () => {
+  console.log("mainReplyTextArea :", mainReplyTextArea.value);
+
+  readTextFile("./data.json", function (text) {
+    let data = JSON.parse(text); //parse JSON
+    const newComment = {
+      id: newCommentId,
+      content: mainReplyTextArea.value,
+      createdAt: "A few seconds ago",
+      score: 0,
+      user: {
+        image: {
+          png: data.currentUser.image.png,
+          webp: data.currentUser.image.webp,
+        },
+        username: data.currentUser.username,
+      },
+      replies: [],
+    };
+    const newCommentHTML = buildCommment(newComment, data);
+    //       "id": 1,
+    //       "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
+    //       "createdAt": "1 month ago",
+    //       "score": 12,
+    //       "user": {
+    //         "image": {
+    //           "png": "./images/avatars/image-amyrobson.png",
+    //           "webp": "./images/avatars/image-amyrobson.webp"
+    //         },
+    //         "username": "amyrobson"
+    //       },
+    //       "replies": []
+    //     },};
+    commentsContainer.innerHTML += newCommentHTML;
+    mainReplyTextArea.value = "";
+    newCommentId += 1;
+  });
+});

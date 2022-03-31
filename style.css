@@ -74,7 +74,7 @@ main {
   width: 100%;
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
-  gap: 20px;
+  column-gap: 20px;
   background-color: var(--white);
   border-radius: 5px;
   padding: 20px;
