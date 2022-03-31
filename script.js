@@ -1,3 +1,4 @@
+let newCommentId = 10;
 /* Source for the following function: https://qawithexperts.com/article/javascript/read-json-file-with-javascript/380 */
 function readTextFile(file, callback) {
   var rawFile = new XMLHttpRequest();
@@ -42,7 +43,6 @@ const commentUpVote = (commentId) => {
 
 const buildCommment = (commentData, data) => {
   const { currentUser } = data;
-  console.log("currentUser :", currentUser);
   const commentCard = ` 
   <div class="comment-container">
     <div class="comment-card" id="${commentData.id}">
@@ -74,15 +74,21 @@ const buildCommment = (commentData, data) => {
             }</span>
             <span class="created-at">${commentData.createdAt}</span>
           </div>
-          <div class="comment-reply-container moderate-blue-text weight-500" onClick="replyClick(${
-            commentData.id
-          })">
+          ${
+            currentUser.username === commentData.user.username
+              ? `
+              <div class="user-modify-controls">
+              <button class="btn transparent-bg red-text weight-500 modify-btn delete-btn" onClick="deleteComment(${commentData.id})"><img src="./images/icon-delete.svg"/>Delete</button>
+              <button class="btn transparent-bg moderate-blue-text weight-500 modify-btn" onClick="toggleEditComment(${commentData.id})"><img src="./images/icon-edit.svg"/>Edit</button>
+              </div>`
+              : `<div class="comment-reply-container moderate-blue-text weight-500" onClick="replyClick(${commentData.id})">
             <img src="./images/icon-reply.svg" alt="Reply arrow" />
             <span>Reply</span>
-          </div>
+          </div>`
+          }
         </div>
-        <div class="comment-body gray-text"> 
-        ${commentData.content}
+        <div class="comment-body gray-text">
+        <textarea disabled>${commentData.content}</textarea>
         </div>
       </div>
     </div>
@@ -158,21 +164,18 @@ const buildCommment = (commentData, data) => {
 const commentsContainer = document.querySelector("#comments-container");
 
 readTextFile("./data.json", function (text) {
-  var data = JSON.parse(text); //parse JSON
+  let data = JSON.parse(text); //parse JSON
   const commentArr = data.comments;
   commentArr.forEach((comment) => {
     const newCommentCard = buildCommment(comment, data);
     commentsContainer.innerHTML += newCommentCard;
   });
   resizeAllTextAreas();
-  console.log(data);
 });
 
 const addHiddenDiv = (i, hiddenDiv) => {
-  console.log("adding hidden div!");
   // Append hiddendiv to parent of textarea, so the size is correct
   i.parentNode.appendChild(hiddenDiv);
-  console.log("i.parentNode :", i.parentNode);
 
   // Remove this if you want the user to be able to resize it in modern browsers
   i.style.resize = "none";
@@ -210,8 +213,6 @@ const resizeAllTextAreas = () => {
   let hiddenDiv = document.createElement("div");
   hiddenDiv.classList.add("hiddendiv");
 
-  console.log("textareas :", textareas);
-
   // Loop through all the textareas and add the event listener
   for (let i of textareas) {
     (function (i) {
@@ -223,8 +224,7 @@ const resizeAllTextAreas = () => {
   }
 };
 
-const buildCommentInput = (userAt) => {
-  console.log("userAt :", userAt);
+const buildCommentInput = (userAt, commentId) => {
   const div = document.createElement("div");
   div.classList.add("reply-input-box", "sub-comment-reply");
   div.innerHTML = `
@@ -237,15 +237,56 @@ const buildCommentInput = (userAt) => {
           id="reply-text-area"
           class="reply-text-area"
           placeholder="Add a comment..."
+          oninput()
         >@${userAt} </textarea>
       </div>
     <div class="button-wrapper">
-      <button type="submit" class="btn text-btn moderate-blue-bg white-text">
+      <button type="submit" class="btn text-btn moderate-blue-bg white-text" onclick="replyToComment(${commentId})">
         SEND
       </button>
     </div>
   </div>`;
   return div;
+};
+
+const replyToComment = (commentId) => {
+  const commentCard = document.getElementById(commentId);
+  const commentReplyContainer = document.querySelector(".sub-comment-reply");
+  const replyTextArea = document.querySelector("#reply-text-area");
+  readTextFile("./data.json", function (text) {
+    let data = JSON.parse(text); //parse JSON
+    const newComment = {
+      id: newCommentId,
+      content: replyTextArea.value,
+      createdAt: "A few seconds ago",
+      score: 0,
+      user: {
+        image: {
+          png: data.currentUser.image.png,
+          webp: data.currentUser.image.webp,
+        },
+        username: data.currentUser.username,
+      },
+      replies: [],
+    };
+    const newCommentHTML = buildCommment(newComment, data);
+    //       "id": 1,
+    //       "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
+    //       "createdAt": "1 month ago",
+    //       "score": 12,
+    //       "user": {
+    //         "image": {
+    //           "png": "./images/avatars/image-amyrobson.png",
+    //           "webp": "./images/avatars/image-amyrobson.webp"
+    //         },
+    //         "username": "amyrobson"
+    //       },
+    //       "replies": []
+    //     },};
+    commentReplyContainer.remove();
+    commentCard.insertAdjacentHTML("afterend", newCommentHTML);
+    newCommentId += 1;
+  });
 };
 
 /* Reply Code */
@@ -256,7 +297,7 @@ const replyClick = (commentId) => {
   if (subReplyDiv) {
     subReplyDiv.remove();
   }
-  const replyInputDiv = buildCommentInput(profileName);
+  const replyInputDiv = buildCommentInput(profileName, commentId);
   commentCard.insertAdjacentElement("afterend", replyInputDiv);
 };
 
@@ -298,14 +339,34 @@ const showDeleteModal = () => {
   modalContainer.classList.remove("hide");
 };
 
+let isUserUpdatingComment = false;
+
 const toggleEditComment = (commentId) => {
   const commentCard = document.getElementById(commentId);
-  console.log("commentCard :", commentCard);
+  const commentControls = commentCard.querySelector(".user-modify-controls");
   const textArea = commentCard.querySelector("textarea");
-  console.log("textArea :", textArea);
   if (textArea.hasAttribute("disabled")) {
+    isUserUpdatingComment = true;
     textArea.removeAttribute("disabled");
+    const saveButton = document.createElement("button");
+    saveButton.classList.add(
+      "btn",
+      "text-btn",
+      "moderate-blue-bg",
+      "white-text",
+      "update-btn"
+    );
+    commentControls.innerHTML = "";
+    saveButton.innerText = "Update";
+    commentCard.append(saveButton);
+    saveButton.addEventListener("click", () => toggleEditComment(commentId));
   } else {
+    isUserUpdatingComment = false;
     textArea.setAttribute("disabled", true);
+    const userControls = `<button class="btn transparent-bg red-text weight-500 modify-btn delete-btn" onClick="deleteComment(${commentId})"><img src="./images/icon-delete.svg"/>Delete</button>
+              <button class="btn transparent-bg moderate-blue-text weight-500 modify-btn" onClick="toggleEditComment(${commentId})"><img src="./images/icon-edit.svg"/>Edit</button>`;
+    commentControls.innerHTML = userControls;
+    const updateBtn = commentCard.querySelector(".update-btn");
+    updateBtn.remove();
   }
 };

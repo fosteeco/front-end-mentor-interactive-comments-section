@@ -22,9 +22,12 @@ body {
   font-family: 'Rubik', Arial, Helvetica, sans-serif;
   font-size: 16px;
   background-color: var(--lightGray);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+main {
+  width: 100%;
 }
 
 .moderate-blue-text {
@@ -50,7 +53,7 @@ body {
 .comments-container {
   display: flex;
   flex-direction: column;
-  max-width: 675px;
+  width: 100%;
   gap: 20px;
 }
 
@@ -70,6 +73,7 @@ body {
   display: grid;
   width: 100%;
   grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
   gap: 20px;
   background-color: var(--white);
   border-radius: 5px;
@@ -175,6 +179,11 @@ body {
   padding: 10px;
 }
 
+.comment-body textarea {
+  padding: 0;
+  border: 0;
+}
+
 .reply-text-area {
 }
 
@@ -199,8 +208,15 @@ body {
   align-items: center;
 }
 
+.update-btn {
+  grid-column: 2;
+  width: fit-content;
+  justify-self: end;
+}
+
 .user-modify-controls {
   display: flex;
+  margin-left: auto;
   gap: 20px;
 }
 
