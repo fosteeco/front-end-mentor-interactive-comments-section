@@ -55,9 +55,9 @@ body {
 }
 
 .comment-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 20px;
+  width: 100%;
 }
 
 .comment-main {
@@ -67,12 +67,13 @@ body {
 }
 
 .comment-card {
-  display: flex;
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto 1fr;
   gap: 20px;
   background-color: var(--white);
   border-radius: 5px;
   padding: 20px;
-  max-width: 675px;
 }
 
 .comment-info {
@@ -97,13 +98,13 @@ body {
 }
 
 .replies-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 10% 1fr;
 }
 
 .reply-bar-container {
-  display: flex;
-  justify-content: center;
-  width: 10%;
+  display: grid;
+  place-items: center;
 }
 
 .reply-bar {
@@ -113,15 +114,15 @@ body {
 }
 
 .replies-container .comment-card {
-  align-self: flex-end;
-  justify-self: flex-end;
+  /* align-self: flex-end; */
+  /* justify-self: flex-end; */
 }
 
 .vote-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 80px;
+  width: 30px;
   align-self: baseline;
   overflow: hidden;
   text-align: center;
@@ -165,9 +166,9 @@ body {
   height: 100%;
 }
 
-.text-area-wrapper textarea {
+.text-area-wrapper textarea,
+.comment-body textarea {
   width: 100%;
-  height: 100%;
   resize: none;
   font-family: inherit;
   border: 1px solid var(--lightGray);
@@ -199,7 +200,6 @@ body {
 }
 
 .user-modify-controls {
-  margin-left: auto;
   display: flex;
   gap: 20px;
 }
@@ -261,6 +261,13 @@ img.profile {
 .confirm-delete-btn {
   color: var(--white);
   background-color: var(--softRed);
+}
+
+/* Source for below code: https://www.impressivewebs.com/textarea-auto-resize/ */
+.hiddendiv {
+  display: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .attribution {

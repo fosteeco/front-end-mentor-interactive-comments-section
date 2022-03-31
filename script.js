@@ -81,7 +81,7 @@ const buildCommment = (commentData, data) => {
             <span>Reply</span>
           </div>
         </div>
-        <div class="comment-body gray-text">
+        <div class="comment-body gray-text"> 
         ${commentData.content}
         </div>
       </div>
@@ -96,7 +96,9 @@ const buildCommment = (commentData, data) => {
         ${commentData.replies
           .map(
             (comment) =>
-              `<div class="comment-card" id="${comment.id}">
+              `
+             <div class="comment-container"> 
+              <div class="comment-card" id="${comment.id}">
       <div class="vote-container">
         <button onClick="commentUpVote(${comment.id})" class="btn plus-button">
           <img src="./images/icon-plus.svg" alt="" />
@@ -128,7 +130,7 @@ const buildCommment = (commentData, data) => {
               ? `
               <div class="user-modify-controls">
               <button class="btn transparent-bg red-text weight-500 modify-btn delete-btn" onClick="deleteComment(${comment.id})"><img src="./images/icon-delete.svg"/>Delete</button>
-              <button class="btn transparent-bg moderate-blue-text weight-500 modify-btn"><img src="./images/icon-edit.svg"/>Edit</button>
+              <button class="btn transparent-bg moderate-blue-text weight-500 modify-btn" onClick="toggleEditComment(${comment.id})"><img src="./images/icon-edit.svg"/>Edit</button>
               </div>`
               : `<div class="comment-reply-container moderate-blue-text weight-500" onClick="replyClick(${comment.id})">
             <img src="./images/icon-reply.svg" alt="Reply arrow" />
@@ -137,9 +139,10 @@ const buildCommment = (commentData, data) => {
           }
         </div>
         <div class="comment-body gray-text">
-        ${comment.content}
+        <textarea disabled>${comment.content}</textarea>
         </div>
       </div>
+    </div>
     </div>`
           )
           .join("")}
@@ -161,8 +164,64 @@ readTextFile("./data.json", function (text) {
     const newCommentCard = buildCommment(comment, data);
     commentsContainer.innerHTML += newCommentCard;
   });
+  resizeAllTextAreas();
   console.log(data);
 });
+
+const addHiddenDiv = (i, hiddenDiv) => {
+  console.log("adding hidden div!");
+  // Append hiddendiv to parent of textarea, so the size is correct
+  i.parentNode.appendChild(hiddenDiv);
+  console.log("i.parentNode :", i.parentNode);
+
+  // Remove this if you want the user to be able to resize it in modern browsers
+  i.style.resize = "none";
+
+  // This removes scrollbars
+  i.style.overflow = "hidden";
+
+  // Every input/change, grab the content
+  content = i.value;
+
+  // Add the same content to the hidden div
+  hiddenDiv.style.display = "none";
+  hiddenDiv.style.whiteSpace = "pre-wrap";
+  hiddenDiv.style.wordWrap = "break-word";
+
+  // This is for old IE
+  content = content.replace(/\n/g, "<br>");
+
+  // The <br ..> part is for old IE
+  hiddenDiv.innerHTML = content + '<br style="line-height: 3px;">';
+
+  // Briefly make the hidden div block but invisible
+  // This is in order to read the height
+  hiddenDiv.style.visibility = "hidden";
+  hiddenDiv.style.display = "block";
+  i.style.height = hiddenDiv.offsetHeight + 22 + "px";
+
+  // Make the hidden div display:none again
+  hiddenDiv.style.visibility = "visible";
+  hiddenDiv.style.display = "none";
+};
+
+const resizeAllTextAreas = () => {
+  let textareas = document.querySelectorAll("textarea");
+  let hiddenDiv = document.createElement("div");
+  hiddenDiv.classList.add("hiddendiv");
+
+  console.log("textareas :", textareas);
+
+  // Loop through all the textareas and add the event listener
+  for (let i of textareas) {
+    (function (i) {
+      addHiddenDiv(i, hiddenDiv);
+      i.addEventListener("input", function () {
+        addHiddenDiv(i, hiddenDiv);
+      });
+    })(i);
+  }
+};
 
 const buildCommentInput = (userAt) => {
   console.log("userAt :", userAt);
@@ -237,4 +296,16 @@ const hideDeleteModal = () => {
 
 const showDeleteModal = () => {
   modalContainer.classList.remove("hide");
+};
+
+const toggleEditComment = (commentId) => {
+  const commentCard = document.getElementById(commentId);
+  console.log("commentCard :", commentCard);
+  const textArea = commentCard.querySelector("textarea");
+  console.log("textArea :", textArea);
+  if (textArea.hasAttribute("disabled")) {
+    textArea.removeAttribute("disabled");
+  } else {
+    textArea.setAttribute("disabled", true);
+  }
 };
