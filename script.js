@@ -360,6 +360,10 @@ const toggleEditComment = (commentId) => {
     saveButton.innerText = "Update";
     commentCard.append(saveButton);
     saveButton.addEventListener("click", () => toggleEditComment(commentId));
+    const end = textArea.value.length;
+    textArea.setSelectionRange(end, end);
+
+    textArea.focus();
   } else {
     isUserUpdatingComment = false;
     textArea.setAttribute("disabled", true);
